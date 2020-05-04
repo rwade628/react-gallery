@@ -6,7 +6,7 @@ import Lightbox from "./components/Lightbox";
 function App() {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState({});
-  const [filters, setFilters] = React.useState("sort=newest");
+  const [filters, setFilters] = React.useState("orderBy=newest");
 
   return (
     <div className="App">
