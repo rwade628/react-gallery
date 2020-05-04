@@ -7,7 +7,7 @@ import SortSelect from "./SortSelect";
 import TagSelect from "./TagSelect";
 import TypeRadio from "./TypeRadio";
 
-export default function FilterForm({ setFilters }) {
+export default function FilterForm({ setFilters, toggleDrawer }) {
   const classes = useStyles();
   const [sort, setSort] = useState("newest");
   const [type, setType] = useState("all");
@@ -20,6 +20,7 @@ export default function FilterForm({ setFilters }) {
     });
     const filterString = `orderBy=${sort}&type=${type}${tags}`;
     setFilters(filterString);
+    toggleDrawer(false); // close drawer on submit
   };
 
   return (

@@ -25,9 +25,9 @@ export default function FilterForm({ type, setType }) {
           onChange={handleChange}
         >
           <FormControlLabel value="all" control={<Radio />} label="All" />
-          <FormControlLabel value="photos" control={<Radio />} label="Photos" />
+          <FormControlLabel value="photo" control={<Radio />} label="Photos" />
           <FormControlLabel
-            value="movies"
+            value="movie"
             control={<Radio />}
             label="Movies"
             data-testid="radio-element"

@@ -19,7 +19,7 @@ export default function TagSelect({ selectedTags, setSelectedTag }) {
     res
       .json()
       .then(res => {
-        const tags = res.data.map(tag => ({
+        const tags = res.map(tag => ({
           name: tag.name,
           src: tag.files[0].src,
           width: tag.files[0].width,

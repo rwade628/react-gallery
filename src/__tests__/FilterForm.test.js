@@ -9,31 +9,32 @@ import {
 import FilterForm from "../components/FilterForm";
 
 describe("FilterForm", () => {
-  let mockFilterFunc;
+  let mockFilterFunc, mockToggleDrawer;
 
   beforeEach(() => {
     mockFilterFunc = jest.fn();
+    mockToggleDrawer = jest.fn();
 
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
         json: () =>
-          Promise.resolve({
-            data: [
-              {
-                name: "tag1",
-                files: [{ src: "/path/", width: 1, height: 2 }]
-              }
-            ]
-          })
+          Promise.resolve([
+            {
+              name: "tag1",
+              files: [{ src: "/path/", width: 1, height: 2 }]
+            }
+          ])
       })
     );
   });
 
   afterEach(cleanup);
 
-  it("calls the provided function when form is submitted", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+  it("calls the provided filter function when form is submitted", async () => {
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 
@@ -43,8 +44,23 @@ describe("FilterForm", () => {
     expect(mockFilterFunc.mock.calls[0][0]).toBe("orderBy=newest&type=all");
   });
 
+  it("calls the togggleDrawer function with false when form is submitted", async () => {
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
+
+    await waitFor(() => {});
+
+    fireEvent.click(screen.getByLabelText(/submit/i));
+
+    expect(mockToggleDrawer.mock.calls.length).toBe(1);
+    expect(mockToggleDrawer.mock.calls[0][0]).toBe(false);
+  });
+
   it("changes type when a new type radio is selected", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 
@@ -53,11 +69,13 @@ describe("FilterForm", () => {
     fireEvent.click(screen.getByLabelText(/submit/i));
 
     expect(mockFilterFunc.mock.calls.length).toBe(1);
-    expect(mockFilterFunc.mock.calls[0][0]).toBe("orderBy=newest&type=movies");
+    expect(mockFilterFunc.mock.calls[0][0]).toBe("orderBy=newest&type=movie");
   });
 
   it("changes sort when a new sort option is selected", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 
@@ -74,7 +92,9 @@ describe("FilterForm", () => {
   });
 
   it("adds tags when a tag item is selected from the dropdown", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 
@@ -93,7 +113,9 @@ describe("FilterForm", () => {
   });
 
   it("opens the tag dialog when the button is clicked", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 
@@ -106,7 +128,9 @@ describe("FilterForm", () => {
   });
 
   it("adds the selected tag from the dialog list when the save button is clicked", async () => {
-    render(<FilterForm setFilters={mockFilterFunc} />);
+    render(
+      <FilterForm setFilters={mockFilterFunc} toggleDrawer={mockToggleDrawer} />
+    );
 
     await waitFor(() => {});
 

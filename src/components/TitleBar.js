@@ -53,7 +53,7 @@ export default function TitleBar({ titleText, setFilters }) {
         open={open}
         onClose={toggleDrawer(false)}
       >
-        <FilterForm setFilters={setFilters} />
+        <FilterForm setFilters={setFilters} toggleDrawer={toggleOpen} />
       </Drawer>
     </div>
   );
