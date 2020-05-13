@@ -82,7 +82,7 @@ describe("GalleryPage", () => {
             {
               name: "gallery1",
               type: "photo",
-              files: [{ src: "/path/", width: 1, height: 2 }]
+              files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
             }
           ])
       })
@@ -103,10 +103,11 @@ describe("GalleryPage", () => {
     fireEvent.click(link);
 
     expect(mockSelectedFunc.mock.calls.length).toBe(1);
+    expect(mockSelectedFunc.mock.calls[0][0].src).toBe("/path/file.jpg");
     expect(mockLightboxFunc.mock.calls.length).toBe(1);
   });
 
-  it("does call the mock functions when the movie type is selected", async () => {
+  it("does call the mock functions when the movie type is selected and replaces the file type with mp4", async () => {
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
@@ -115,7 +116,7 @@ describe("GalleryPage", () => {
             {
               name: "gallery1",
               type: "movie",
-              files: [{ src: "/path/", width: 1, height: 2 }]
+              files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
             }
           ])
       })
@@ -132,6 +133,7 @@ describe("GalleryPage", () => {
     fireEvent.click(link);
 
     expect(mockSelectedFunc.mock.calls.length).toBe(1);
+    expect(mockSelectedFunc.mock.calls[0][0].src).toBe("/path/file.mp4");
     expect(mockLightboxFunc.mock.calls.length).toBe(1);
   });
 });

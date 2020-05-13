@@ -58,12 +58,16 @@ export default function GalleryPage({ filters, setSelected, setLightboxOpen }) {
         history.push("/", { photos: photo.files });
         setPhotos(photo.files);
       } else {
-        const movie = {
-          ...photo,
-          src: photo.src.replace("jpg", "mp4")
-        };
         // otherwise it should open the lightbox and set the lightbox selection to the selected object
-        setSelected(movie);
+        if (photo.type === "movie") {
+          const movie = {
+            ...photo,
+            src: photo.src.replace("jpg", "mp4")
+          };
+          setSelected(movie);
+        } else {
+          setSelected(photo);
+        }
         setLightboxOpen(true);
       }
     },
