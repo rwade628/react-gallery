@@ -29,6 +29,7 @@ export default function Lightbox({ open, setOpen, selected }) {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={open}
+      style={{ touchAction: "none" }}
       onClose={handleClose}
       data-testid="lightbox"
     >
