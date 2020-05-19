@@ -61,8 +61,8 @@ const restrictListener = (x, y, element) => {
   return {
     left: restriction.left,
     right: restriction.left + restriction.width,
-    top: restriction.top,
-    bottom: restriction.top + restriction.height
+    top: restriction.top + window.scrollY,
+    bottom: restriction.top + restriction.height + window.scrollY
   };
 };
 
@@ -108,13 +108,9 @@ const PinchImage = forwardRef(({ image, onSwipe, hide }, ref) => {
   const zoom = useCallback((newZoom, clientX, clientY) => {
     const currentX = imageDataRef.current.x;
     const currentY = imageDataRef.current.y;
-    const delm = document.documentElement;
-    /// scroll offset
-    const scrollX = delm.scrollLeft;
-    const scrollY = delm.scrollTop;
     /// mouse cords
-    const pointerX = clientX + scrollX;
-    const pointerY = clientY + scrollY;
+    const pointerX = clientX;
+    const pointerY = clientY;
     /// calculate click at current zoom
     const imageX = (pointerX - currentX) / imageDataRef.current.scale;
     const imageY = (pointerY - currentY) / imageDataRef.current.scale;
