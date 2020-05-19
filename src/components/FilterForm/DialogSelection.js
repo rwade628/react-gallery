@@ -122,7 +122,6 @@ export default function DialogSelection({
         Modal title
       </DialogTitle>
       <DialogContent dividers data-testid="dialog-body">
-        <span> test </span>
         <Gallery
           photos={list}
           renderImage={imageRenderer}
