@@ -72,7 +72,7 @@ const Video = ({ src, closeModal }, ref) => {
     clearInterval(timeout.current);
     timeout.current = setInterval(() => {
       setFocus(false);
-    }, 1000);
+    }, 2000);
     setFocus(true);
   };
 

@@ -26,11 +26,10 @@ export const useStyles = makeStyles({
     position: "absolute",
     right: 0,
     top: 0,
-    paddingRight: 5,
+    paddingRight: 10,
     height: "100%",
-    transform: props =>
-      props.focused ? "translateX(0px)" : "translateX(100%) translateX(-8px)",
-    transition: "all .3s",
+    opacity: props => (props.focused ? 1 : 0),
+    transition: "opacity .8s",
     flexWrap: "wrap",
     flexGrow: 1,
     background: "rgba(0,0,0,0.1)"
