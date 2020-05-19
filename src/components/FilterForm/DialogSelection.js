@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import Gallery from "react-photo-gallery";
+import TextField from "@material-ui/core/TextField";
 
 import SelectedImage from "./SelectedImage";
 
@@ -64,10 +65,15 @@ export default function DialogSelection({
   setSelected
 }) {
   const [clicked, setClicked] = useState(selectedList);
+  const [visibleList, setVisibleList] = useState(list);
 
   useEffect(() => {
     setClicked(selectedList);
   }, [selectedList]);
+
+  useEffect(() => {
+    setVisibleList(list);
+  }, [list]);
 
   const handleChange = useCallback(
     (event, index) => {
@@ -110,6 +116,17 @@ export default function DialogSelection({
     setOpen(false);
   };
 
+  const handleInputChange = e => {
+    if (e.target.value === "") {
+      setVisibleList(list);
+    } else {
+      const matchers = list.filter(
+        item => item.name.indexOf(e.target.value) !== -1
+      );
+      setVisibleList(matchers);
+    }
+  };
+
   return (
     <Dialog
       onClose={handleClose}
@@ -122,8 +139,9 @@ export default function DialogSelection({
         Modal title
       </DialogTitle>
       <DialogContent dividers data-testid="dialog-body">
+        <TextField onChange={handleInputChange} fullWidth label="Search" />
         <Gallery
-          photos={list}
+          photos={visibleList}
           renderImage={imageRenderer}
           data-testid="gallery"
         />
