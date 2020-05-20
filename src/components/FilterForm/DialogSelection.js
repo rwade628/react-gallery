@@ -77,17 +77,17 @@ export default function DialogSelection({
 
   const handleChange = useCallback(
     (event, index) => {
-      const i = clicked.indexOf(list[index].name);
+      const i = clicked.indexOf(visibleList[index].name);
       if (i > -1) {
         const newArr = clicked.filter(function(ele) {
-          return ele !== list[index].name;
+          return ele !== visibleList[index].name;
         });
         setClicked(newArr);
       } else {
-        setClicked([...clicked, list[index].name]);
+        setClicked([...clicked, visibleList[index].name]);
       }
     },
-    [clicked, list]
+    [clicked, visibleList]
   );
 
   const imageRenderer = useCallback(
@@ -121,7 +121,8 @@ export default function DialogSelection({
       setVisibleList(list);
     } else {
       const matchers = list.filter(
-        item => item.name.indexOf(e.target.value) !== -1
+        item =>
+          item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1
       );
       setVisibleList(matchers);
     }
