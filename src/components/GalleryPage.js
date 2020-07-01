@@ -16,65 +16,6 @@ export default function GalleryPage({
   const height = window.innerHeight;
   const rowHeight = height / 2;
   const [photos, setPhotos] = useState([]);
-  const [visiblePhotos, setVisiblePhotos] = useState(photos);
-  const [loadedAll, setLoadedAll] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    setVisiblePhotos(photos.slice(0, 10));
-  }, [photos]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
-
-  const handleScroll = () => {
-    let scrollY =
-      window.scrollY ||
-      window.pageYOffset ||
-      document.documentElement.scrollTop;
-    if (window.innerHeight + scrollY >= document.body.offsetHeight - 50) {
-      loadMorePhotos();
-    }
-  };
-
-  const debounce = (func, wait, immediate) => {
-    let timeout;
-    let progressTimeout;
-    return function() {
-      const context = this,
-        args = arguments;
-      let later = function() {
-        progressTimeout = null;
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      let update = function() {
-        setProgress(progress + 5);
-      };
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      clearTimeout(progressTimeout);
-      timeout = setTimeout(later, wait);
-      progressTimeout = setTimeout(update, 5);
-      if (callNow) func.apply(context, args);
-    };
-  };
-
-  const loadMorePhotos = debounce(() => {
-    if (visiblePhotos.length + 10 > photos.length) {
-      setLoadedAll(true);
-      return;
-    }
-
-    setVisiblePhotos(
-      visiblePhotos.concat(
-        photos.slice(visiblePhotos.length, visiblePhotos.length + 10)
-      )
-    );
-    setProgress(0);
-  }, 500);
 
   async function fetchGalleries(filters) {
     const res = await fetch(`v1/galleries?${filters}`);
@@ -144,18 +85,11 @@ export default function GalleryPage({
   );
 
   return (
-    <>
-      <Gallery
-        photos={visiblePhotos}
-        targetRowHeight={rowHeight}
-        renderImage={Photo}
-        onClick={handlePhotoClick}
-      />
-      {!loadedAll && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <CircularProgress variant="determinate" value={progress} />
-        </div>
-      )}
-    </>
+    <Gallery
+      photos={photos}
+      targetRowHeight={rowHeight}
+      renderImage={Photo}
+      onClick={handlePhotoClick}
+    />
   );
 }
