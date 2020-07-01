@@ -3,7 +3,15 @@ import Modal from "@material-ui/core/Modal";
 import PinchImage from "./PinchImage";
 import Video from "./VideoPlayer/Video.js";
 
-export default function Lightbox({ open, setOpen, selected }) {
+export default function Lightbox({
+  open,
+  setOpen,
+  selected,
+  gallery,
+  index,
+  setIndex,
+  setSelected
+}) {
   // if (!selected.src) {
   //   return null;
   // }
@@ -12,18 +20,38 @@ export default function Lightbox({ open, setOpen, selected }) {
     setOpen(false);
   };
 
+  const setNext = direction => {
+    let newIndex;
+    if (direction === "left") {
+      if (index === gallery.length - 1) {
+        index = -1;
+      }
+      newIndex = (index + 1) % gallery.length;
+    } else {
+      if (index === 0) {
+        index = gallery.length;
+      }
+      newIndex = (index - 1) % gallery.length;
+    }
+    setSelected(gallery[newIndex]);
+    setIndex(newIndex);
+  };
+
   const regex = /jpe?g/g; //jpg or jpeg
 
   let modalContent;
   if (selected.src) {
     if (selected.src.search(regex) > -1) {
-      modalContent = <PinchImage image={selected} hide={handleClose} />;
+      modalContent = (
+        <PinchImage image={selected} onSwipe={setNext} hide={handleClose} />
+      );
     } else {
       modalContent = <Video src={selected.src} closeModal={handleClose} />;
     }
   } else {
     modalContent = <span>Modal</span>;
   }
+
   return (
     <Modal
       aria-labelledby="simple-modal-title"

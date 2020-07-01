@@ -9,6 +9,8 @@ import React, {
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import Next from "@material-ui/icons/NavigateNext";
+import Prev from "@material-ui/icons/NavigateBefore";
 
 import interact from "interactjs";
 
@@ -28,6 +30,34 @@ export const useStyles = makeStyles({
     zIndex: "999",
     top: 0,
     right: 0
+  },
+  next: {
+    background: "none",
+    border: 0,
+    lineHeight: 1,
+    color: "white",
+    textAlign: "center",
+    outline: 0,
+    padding: "10px",
+    position: "absolute",
+    right: 0,
+    top: "50%",
+    zIndex: "999",
+    transform: "translateY(-50%)"
+  },
+  prev: {
+    background: "none",
+    border: 0,
+    lineHeight: 1,
+    color: "white",
+    textAlign: "center",
+    outline: 0,
+    padding: "10px",
+    position: "absolute",
+    left: 0,
+    top: "50%",
+    zIndex: "999",
+    transform: "translateY(-50%)"
   }
 });
 
@@ -170,71 +200,83 @@ const PinchImage = forwardRef(({ image, onSwipe, hide }, ref) => {
   );
 
   useEffect(() => {
-    if (!interact.isSet(imageRef.current)) {
-      setInitialLocation();
-      interact(imageRef.current)
-        .draggable({
-          max: 1,
-          inertia: true,
-          restrict: {
-            restriction: restrictListener,
-            endOnly: true,
-            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-          },
-          onmove: event => {
-            const newX = imageDataRef.current.x + event.dx;
-            const newY = imageDataRef.current.y + event.dy;
-            setImageData(i => ({
-              ...i,
-              x: newX,
-              y: newY
-            }));
-            event.preventDefault();
-          },
-          oninertiastart: event => {
-            if (
-              imageDataRef.current.scale ===
-                imageDataRef.current.originalScale &&
-              event.swipe &&
-              (event.swipe.left || event.swipe.right) &&
-              Math.abs(event.swipe.velocity.x) > 3000
-            ) {
-              const direction = event.swipe.left ? "left" : "right";
-              if (onSwipe) {
-                onSwipe(direction);
-              }
+    interact(imageRef.current).unset();
+    setInitialLocation();
+    interact(imageRef.current)
+      .draggable({
+        max: 1,
+        inertia: true,
+        restrict: {
+          restriction: restrictListener,
+          endOnly: true,
+          elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        },
+        onmove: event => {
+          const newX = imageDataRef.current.x + event.dx;
+          const newY = imageDataRef.current.y + event.dy;
+          setImageData(i => ({
+            ...i,
+            x: newX,
+            y: newY
+          }));
+          event.preventDefault();
+        },
+        oninertiastart: event => {
+          if (
+            imageDataRef.current.scale === imageDataRef.current.originalScale &&
+            event.swipe &&
+            (event.swipe.left || event.swipe.right) &&
+            Math.abs(event.swipe.velocity.x) > 3000
+          ) {
+            const direction = event.swipe.left ? "left" : "right";
+            if (onSwipe) {
+              onSwipe(direction);
             }
           }
-        })
-        .gesturable({
-          restrict: {
-            restriction: restrictListener,
-            endOnly: true,
-            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-          },
-          onmove: event => {
-            const newScale = imageDataRef.current.scale * (1 + event.ds);
-            if (
-              newScale > imageDataRef.current.minScale &&
-              newScale < imageDataRef.current.maxScale
-            ) {
-              const middleX =
-                (event.touches[0].clientX + event.touches[1].clientX) / 2;
-              const middleY =
-                (event.touches[0].clientY + event.touches[1].clientY) / 2;
-              zoom(newScale, middleX, middleY);
-            }
-            event.preventDefault();
+        }
+      })
+      .gesturable({
+        restrict: {
+          restriction: restrictListener,
+          endOnly: true,
+          elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        },
+        onmove: event => {
+          const newScale = imageDataRef.current.scale * (1 + event.ds);
+          if (
+            newScale > imageDataRef.current.minScale &&
+            newScale < imageDataRef.current.maxScale
+          ) {
+            const middleX =
+              (event.touches[0].clientX + event.touches[1].clientX) / 2;
+            const middleY =
+              (event.touches[0].clientY + event.touches[1].clientY) / 2;
+            zoom(newScale, middleX, middleY);
           }
-        })
-        .on("tap", tapHandler);
-    }
-  });
+          event.preventDefault();
+        }
+      })
+      .on("tap", tapHandler);
+  }, [image, onSwipe, setInitialLocation, tapHandler, zoom]);
+
+  const goToNext = () => {
+    onSwipe && onSwipe("left");
+  };
+
+  const goToPrev = () => {
+    onSwipe && onSwipe("right");
+  };
 
   return (
     <>
       <IconButton className={classes.button} onClick={hide}>
         <CloseIcon fontSize="large" />
+      </IconButton>
+      <IconButton className={classes.next} onClick={goToNext}>
+        <Next fontSize="large" />
+      </IconButton>
+      <IconButton className={classes.prev} onClick={goToPrev}>
+        <Prev fontSize="large" />
       </IconButton>
 
       <img

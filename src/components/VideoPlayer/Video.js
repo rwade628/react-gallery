@@ -3,8 +3,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import Forward30Icon from "@material-ui/icons/Forward30";
-import Replay10Icon from "@material-ui/icons/Replay10";
+import Forward5Icon from "@material-ui/icons/Forward5";
+import Replay5Icon from "@material-ui/icons/Replay5";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import FullscreenExitIcon from "@material-ui/icons/FullscreenExit";
 import { useStyles, ProgressSlider } from "./styles";
@@ -112,11 +112,11 @@ const Video = ({ src, closeModal }, ref) => {
             <PauseIcon />
           )}
         </IconButton>
-        <IconButton data-skip="25" className={classes.button} onClick={skip}>
-          <Forward30Icon />
+        <IconButton data-skip="5" className={classes.button} onClick={skip}>
+          <Forward5Icon />
         </IconButton>
-        <IconButton data-skip="-10" className={classes.button} onClick={skip}>
-          <Replay10Icon />
+        <IconButton data-skip="-5" className={classes.button} onClick={skip}>
+          <Replay5Icon />
         </IconButton>
         <IconButton className={classes.button} onClick={toggleFullscreen}>
           {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}

@@ -1,4 +1,6 @@
 import React from "react";
+import PhotoLibrary from "@material-ui/icons/PhotoLibrary";
+import Movie from "@material-ui/icons/Movie";
 
 const Photo = ({
   index,
@@ -27,6 +29,10 @@ const Photo = ({
       fontSize: "1.2rem",
       padding: "1vw",
       textAlign: "center"
+    },
+    align: {
+      display: "flex",
+      justifyContent: "space-around"
     }
   };
 
@@ -50,7 +56,15 @@ const Photo = ({
         src={photo.thumb || photo.src}
         onClick={onClick ? handleClick : null}
       />
-      {photo.name && <div style={styles.overlay}>{photo.name}</div>}
+      {photo.name && (
+        <div style={styles.overlay}>
+          <div style={styles.align}>
+            {photo.type === "movie" ? <Movie /> : <PhotoLibrary />}
+            <span>{photo.name}</span>
+            <span />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
