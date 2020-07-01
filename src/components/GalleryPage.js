@@ -2,7 +2,6 @@ import React, { useCallback, useState, useEffect } from "react";
 import Gallery from "react-photo-gallery";
 import Photo from "./Photo";
 import { createBrowserHistory } from "history";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const history = createBrowserHistory();
 
