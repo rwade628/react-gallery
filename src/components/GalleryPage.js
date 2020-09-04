@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Gallery from "react-photo-gallery";
 import Photo from "./Photo";
 import { createBrowserHistory } from "history";
@@ -7,46 +7,41 @@ const history = createBrowserHistory();
 
 export default function GalleryPage({
   filters,
-  setSelected,
-  setLightboxOpen,
-  setGallery,
-  setIndex
+  gallerySelect,
+  photos,
+  setPhotos
 }) {
-  const height = window.innerHeight;
-  const rowHeight = height / 2;
-  const [photos, setPhotos] = useState([]);
-
-  async function fetchGalleries(filters) {
-    const res = await fetch(`v1/galleries?${filters}`);
-    res
-      .json()
-      .then(res => {
-        // create an array of photos with all top level files
-        // think of this as a title page
-        const galleries = res.map(gallery => ({
-          name: gallery.name,
-          src: gallery.files[0].src,
-          width: gallery.files[0].width,
-          rawWidth: gallery.files[0].width,
-          rawHeight: gallery.files[0].height,
-          height: gallery.files[0].height,
-          thumb: gallery.files[0].thumb,
-          type: gallery.type,
-          files: gallery.files.map(file => ({
-            rawWidth: file.width, // width and height get changed by the gallery component
-            rawHeight: file.height, // so back them up to raw values
-            ...file
-          }))
-        }));
-        setPhotos(galleries);
-        history.push("/", { photos: galleries });
-      })
-      .catch(err => console.log("error calling api:", err));
-  }
-
   useEffect(() => {
+    async function fetchGalleries(filters) {
+      const res = await fetch(`v1/galleries?${filters}`);
+      res
+        .json()
+        .then(res => {
+          // create an array of photos with all top level files
+          // think of this as a title page
+          const galleries = res.map(gallery => ({
+            name: gallery.name,
+            src: gallery.files[0].src,
+            width: gallery.files[0].width,
+            rawWidth: gallery.files[0].width,
+            rawHeight: gallery.files[0].height,
+            height: gallery.files[0].height,
+            thumb: gallery.files[0].thumb,
+            type: gallery.type,
+            files: gallery.files.map(file => ({
+              rawWidth: file.width, // width and height get changed by the gallery component
+              rawHeight: file.height, // so back them up to raw values
+              ...file
+            }))
+          }));
+          setPhotos(galleries);
+          history.push("/", { photos: galleries });
+        })
+        .catch(err => console.log("error calling api:", err));
+    }
+
     fetchGalleries(filters);
-  }, [filters]);
+  }, [filters, setPhotos]);
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
@@ -55,38 +50,18 @@ export default function GalleryPage({
       }
     });
     return () => unlisten();
-  }, []);
+  }, [setPhotos]);
 
   const handlePhotoClick = useCallback(
     (event, { photo, index }) => {
-      // if the type is photo that means it has a lite of photos in its files
-      if (photo.type === "photo") {
-        history.push("/", { photos: photo.files });
-        setPhotos(photo.files);
-        setGallery(photo.files);
-        window.scrollTo(0, 0);
-      } else {
-        // otherwise it should open the lightbox and set the lightbox selection to the selected object
-        if (photo.type === "movie") {
-          const movie = {
-            ...photo,
-            src: photo.src.replace("jpg", "mp4")
-          };
-          setSelected(movie);
-        } else {
-          setSelected(photo);
-          setIndex(index);
-        }
-        setLightboxOpen(true);
-      }
+      gallerySelect(photo, index);
     },
-    [setSelected, setLightboxOpen, setGallery, setIndex]
+    [gallerySelect]
   );
 
   return (
     <Gallery
-      photos={photos}
-      targetRowHeight={rowHeight}
+      photos={photos ? photos.slice(0, 150) : []}
       renderImage={Photo}
       onClick={handlePhotoClick}
     />

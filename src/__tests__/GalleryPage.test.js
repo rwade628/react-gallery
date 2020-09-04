@@ -9,13 +9,33 @@ import {
 import GalleryPage from "../components/GalleryPage";
 
 describe("GalleryPage", () => {
-  let mockSelectedFunc, mockLightboxFunc, mockSetGalleryFunc, mockSetIndexFunc;
+  let mockGallerySelectFunc, mockSetPhotosFunc;
+  const photos = [
+    {
+      name: "gallery1",
+      type: "photo",
+      src: "/path/file.jpg",
+      width: 1,
+      height: 2,
+      files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
+    },
+    {
+      name: "gallery2",
+      type: "movie",
+      src: "/path/file.mp4",
+      width: 1,
+      height: 2,
+      files: [{ src: "/path/file.mp4", width: 1, height: 2 }]
+    }
+  ];
 
+  // filters,
+  // gallerySelect,
+  // photos,
+  // setPhotos
   beforeEach(() => {
-    mockSelectedFunc = jest.fn();
-    mockLightboxFunc = jest.fn();
-    mockSetGalleryFunc = jest.fn();
-    mockSetIndexFunc = jest.fn();
+    mockGallerySelectFunc = jest.fn();
+    mockSetPhotosFunc = jest.fn();
     window.scrollTo = jest.fn();
   });
 
@@ -25,160 +45,49 @@ describe("GalleryPage", () => {
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "gallery1",
-              type: "photo",
-              files: [{ src: "/path/", width: 1, height: 2 }]
-            },
-            {
-              name: "gallery2",
-              type: "movie",
-              files: [{ src: "/path/", width: 1, height: 2 }]
-            }
-          ])
+        json: () => Promise.resolve([])
       })
     );
-    render(<GalleryPage />);
+    render(<GalleryPage photos={photos} setPhotos={mockSetPhotosFunc} />);
 
     await waitFor(() => {});
 
     expect(screen.getAllByTestId("gallery-link").length).toBe(2);
   });
 
-  it("does not call the selected or lightbox mock functions when the photo type is selected", async () => {
+  it("does call the  gallery select mock functions when the photo is clicked", async () => {
+    const photos = [
+      {
+        name: "gallery1",
+        type: "photo",
+        src: "/path/file.jpg",
+        width: 1,
+        height: 2,
+        files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
+      }
+    ];
+
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "gallery1",
-              type: "photo",
-              files: [{ src: "/path/", width: 1, height: 2 }]
-            }
-          ])
+        json: () => Promise.resolve([])
       })
     );
 
     render(
       <GalleryPage
-        setSelected={mockSelectedFunc}
-        setLightboxOpen={mockLightboxFunc}
-        setGallery={mockSetGalleryFunc}
-        setIndex={mockSetIndexFunc}
+        photos={photos}
+        setPhotos={mockSetPhotosFunc}
+        gallerySelect={mockGallerySelectFunc}
       />
     );
 
     await waitFor(() => {});
     const link = screen.getByTestId("gallery-link");
     fireEvent.click(link);
-    expect(mockSelectedFunc.mock.calls.length).toBe(0);
-    expect(mockLightboxFunc.mock.calls.length).toBe(0);
-  });
-
-  it("does call the gallery mock function when the photo type is selected", async () => {
-    jest.spyOn(global, "fetch").mockImplementation(() =>
-      Promise.resolve({
-        status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "gallery1",
-              type: "photo",
-              files: [{ src: "/path/", width: 1, height: 2 }]
-            }
-          ])
-      })
-    );
-
-    render(
-      <GalleryPage
-        setSelected={mockSelectedFunc}
-        setLightboxOpen={mockLightboxFunc}
-        setGallery={mockSetGalleryFunc}
-        setIndex={mockSetIndexFunc}
-      />
-    );
-
-    await waitFor(() => {});
-    const link = screen.getByTestId("gallery-link");
-    fireEvent.click(link);
-    expect(mockSetGalleryFunc.mock.calls.length).toBe(1);
-  });
-
-  it("does call the mock functions when a gallery's photo is selected", async () => {
-    jest.spyOn(global, "fetch").mockImplementation(() =>
-      Promise.resolve({
-        status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "gallery1",
-              type: "photo",
-              files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
-            }
-          ])
-      })
-    );
-
-    render(
-      <GalleryPage
-        setSelected={mockSelectedFunc}
-        setLightboxOpen={mockLightboxFunc}
-        setGallery={mockSetGalleryFunc}
-        setIndex={mockSetIndexFunc}
-      />
-    );
-
-    await waitFor(() => {});
-    let link = screen.getByTestId("gallery-link");
-    fireEvent.click(link);
-
-    link = screen.getByTestId("gallery-link");
-    fireEvent.click(link);
-
-    expect(mockSelectedFunc.mock.calls.length).toBe(1);
-    expect(mockSelectedFunc.mock.calls[0][0].src).toBe("/path/file.jpg");
-    expect(mockLightboxFunc.mock.calls.length).toBe(1);
-    expect(mockSetIndexFunc.mock.calls.length).toBe(1);
+    expect(mockGallerySelectFunc.mock.calls.length).toBe(1);
+    expect(mockGallerySelectFunc.mock.calls[0][0].src).toBe("/path/file.jpg");
     // index should be set to 0
-    expect(mockSetIndexFunc.mock.calls[0][0]).toBe(0);
-  });
-
-  it("does call the mock functions when the movie type is selected and replaces the file type with mp4", async () => {
-    jest.spyOn(global, "fetch").mockImplementation(() =>
-      Promise.resolve({
-        status: 200,
-        json: () =>
-          Promise.resolve([
-            {
-              name: "gallery1",
-              type: "movie",
-              files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
-            }
-          ])
-      })
-    );
-    render(
-      <GalleryPage
-        setSelected={mockSelectedFunc}
-        setLightboxOpen={mockLightboxFunc}
-        setGallery={mockSetGalleryFunc}
-        setIndex={mockSetIndexFunc}
-      />
-    );
-
-    await waitFor(() => {});
-    const link = screen.getByTestId("gallery-link");
-    fireEvent.click(link);
-
-    expect(mockSelectedFunc.mock.calls.length).toBe(1);
-    expect(mockSelectedFunc.mock.calls[0][0].src).toBe("/path/file.mp4");
-    expect(mockLightboxFunc.mock.calls.length).toBe(1);
-
-    // should not call index function
-    expect(mockSetIndexFunc.mock.calls.length).toBe(0);
+    expect(mockGallerySelectFunc.mock.calls[0][1]).toBe(0);
   });
 });

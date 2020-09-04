@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import DiceIcon from "@material-ui/icons/Casino";
 import FilterForm from "./FilterForm";
 // import Slide from "@material-ui/core/Slide";
 
@@ -21,12 +22,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function TitleBar({ titleText, setFilters }) {
+export default function TitleBar({
+  titleText,
+  setFilters,
+  photos,
+  gallerySelect
+}) {
   const [open, toggleOpen] = useState(false);
   const classes = useStyles();
 
   const toggleDrawer = open => event => {
     toggleOpen(open);
+  };
+
+  const selectRandom = () => {
+    const index = Math.floor(Math.random() * photos.length);
+    const photo = photos[index];
+    gallerySelect(photo, index);
   };
 
   return (
@@ -36,6 +48,13 @@ export default function TitleBar({ titleText, setFilters }) {
           <Typography variant="h6" className={classes.title}>
             {titleText}
           </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="random"
+            onClick={selectRandom}
+          >
+            <DiceIcon />
+          </IconButton>
           <IconButton
             edge="end"
             className={classes.menuButton}
