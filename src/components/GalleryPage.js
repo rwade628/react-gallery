@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import Pagination from "@material-ui/lab/Pagination";
 import Gallery from "react-photo-gallery";
 import Photo from "./Photo";
 import { createBrowserHistory } from "history";
@@ -11,6 +12,8 @@ export default function GalleryPage({
   photos,
   setPhotos
 }) {
+  const [index, setIndex] = useState(1);
+
   useEffect(() => {
     async function fetchGalleries(filters) {
       const res = await fetch(`v1/galleries?${filters}`);
@@ -59,11 +62,32 @@ export default function GalleryPage({
     [gallerySelect]
   );
 
+  const updatePage = useCallback(
+    (event, value) => {
+      window.scrollTo(0, 0);
+      setIndex(value);
+    },
+    [setIndex]
+  );
+
   return (
-    <Gallery
-      photos={photos ? photos.slice(0, 150) : []}
-      renderImage={Photo}
-      onClick={handlePhotoClick}
-    />
+    <>
+      <Gallery
+        photos={photos ? photos.slice((index - 1) * 25, index * 25) : []}
+        renderImage={Photo}
+        onClick={handlePhotoClick}
+      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        <Pagination
+          count={Math.ceil(photos.length / 25)}
+          onChange={updatePage}
+        />
+      </div>
+    </>
   );
 }
