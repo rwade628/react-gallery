@@ -80,11 +80,12 @@ export default function GalleryPage({
       <div
         style={{
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "flex-end"
         }}
       >
         <Pagination
           count={Math.ceil(photos.length / 25)}
+          size="large"
           onChange={updatePage}
         />
       </div>
