@@ -62,6 +62,7 @@ export default function GalleryPage({
         index = index + (page - 1) * 25;
       }
       gallerySelect(photo, index);
+      setPage(1);
     },
     [gallerySelect, page]
   );
