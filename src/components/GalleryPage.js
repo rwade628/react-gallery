@@ -12,7 +12,7 @@ export default function GalleryPage({
   photos,
   setPhotos
 }) {
-  const [index, setIndex] = useState(1);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function fetchGalleries(filters) {
@@ -50,6 +50,7 @@ export default function GalleryPage({
     const unlisten = history.listen((location, action) => {
       if (action === "POP" && location.state) {
         setPhotos(location.state.photos);
+        setPage(1);
       }
     });
     return () => unlisten();
@@ -57,23 +58,28 @@ export default function GalleryPage({
 
   const handlePhotoClick = useCallback(
     (event, { photo, index }) => {
+      if (page > 1) {
+        index = index + (page - 1) * 25;
+      }
       gallerySelect(photo, index);
     },
-    [gallerySelect]
+    [gallerySelect, page]
   );
 
   const updatePage = useCallback(
     (event, value) => {
       window.scrollTo(0, 0);
-      setIndex(value);
+      setPage(value);
     },
-    [setIndex]
+    [setPage]
   );
+
+  console.log(page);
 
   return (
     <>
       <Gallery
-        photos={photos ? photos.slice((index - 1) * 25, index * 25) : []}
+        photos={photos ? photos.slice((page - 1) * 25, page * 25) : []}
         renderImage={Photo}
         onClick={handlePhotoClick}
       />
@@ -86,6 +92,7 @@ export default function GalleryPage({
         <Pagination
           count={Math.ceil(photos.length / 25)}
           size="large"
+          page={page}
           onChange={updatePage}
         />
       </div>
