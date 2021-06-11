@@ -4,12 +4,12 @@ import {
   fireEvent,
   cleanup,
   screen,
-  waitFor
+  waitFor,
 } from "@testing-library/react";
 import GalleryPage from "../components/GalleryPage";
 
 describe("GalleryPage", () => {
-  let mockGallerySelectFunc, mockSetPhotosFunc;
+  let mockGallerySelectFunc, mockSetPhotosFunc, mockSetAllPhotosFunc;
   const photos = [
     {
       name: "gallery1",
@@ -17,7 +17,7 @@ describe("GalleryPage", () => {
       src: "/path/file.jpg",
       width: 1,
       height: 2,
-      files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
+      files: [{ src: "/path/file.jpg", width: 1, height: 2 }],
     },
     {
       name: "gallery2",
@@ -25,8 +25,8 @@ describe("GalleryPage", () => {
       src: "/path/file.mp4",
       width: 1,
       height: 2,
-      files: [{ src: "/path/file.mp4", width: 1, height: 2 }]
-    }
+      files: [{ src: "/path/file.mp4", width: 1, height: 2 }],
+    },
   ];
 
   // filters,
@@ -36,6 +36,7 @@ describe("GalleryPage", () => {
   beforeEach(() => {
     mockGallerySelectFunc = jest.fn();
     mockSetPhotosFunc = jest.fn();
+    mockSetAllPhotosFunc = jest.fn();
     window.scrollTo = jest.fn();
   });
 
@@ -45,10 +46,16 @@ describe("GalleryPage", () => {
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
-        json: () => Promise.resolve([])
+        json: () => Promise.resolve([]),
       })
     );
-    render(<GalleryPage photos={photos} setPhotos={mockSetPhotosFunc} />);
+    render(
+      <GalleryPage
+        photos={photos}
+        setAllPhotos={mockSetAllPhotosFunc}
+        setPhotos={mockSetPhotosFunc}
+      />
+    );
 
     await waitFor(() => {});
 
@@ -63,20 +70,21 @@ describe("GalleryPage", () => {
         src: "/path/file.jpg",
         width: 1,
         height: 2,
-        files: [{ src: "/path/file.jpg", width: 1, height: 2 }]
-      }
+        files: [{ src: "/path/file.jpg", width: 1, height: 2 }],
+      },
     ];
 
     jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
         status: 200,
-        json: () => Promise.resolve([])
+        json: () => Promise.resolve([]),
       })
     );
 
     render(
       <GalleryPage
         photos={photos}
+        setAllPhotos={mockSetAllPhotosFunc}
         setPhotos={mockSetPhotosFunc}
         gallerySelect={mockGallerySelectFunc}
       />

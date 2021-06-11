@@ -7,15 +7,20 @@ import SortSelect from "./SortSelect";
 import TagSelect from "./TagSelect";
 import TypeRadio from "./TypeRadio";
 
-export default function FilterForm({ setFilters, toggleDrawer }) {
+export default function FilterForm({
+  tags,
+  setTags,
+  setFilters,
+  toggleDrawer,
+}) {
   const classes = useStyles();
   const [sort, setSort] = useState("newest");
   const [type, setType] = useState("all");
   const [selectedTags, setSelectedTag] = useState([]);
 
-  const apply = e => {
+  const apply = (e) => {
     let tags = "";
-    selectedTags.forEach(tag => {
+    selectedTags.forEach((tag) => {
       tags += `&tag=${tag}`;
     });
     const filterString = `orderBy=${sort}&type=${type}${tags}`;
@@ -27,7 +32,12 @@ export default function FilterForm({ setFilters, toggleDrawer }) {
     <div className={classes.fullList} role="presentation">
       <TypeRadio type={type} setType={setType} />
       <SortSelect sort={sort} setSort={setSort} />
-      <TagSelect selectedTags={selectedTags} setSelectedTag={setSelectedTag} />
+      <TagSelect
+        tags={tags}
+        setTags={setTags}
+        selectedTags={selectedTags}
+        setSelectedTag={setSelectedTag}
+      />
       <Divider />
       <Button
         variant="contained"

@@ -10,7 +10,8 @@ export default function Lightbox({
   gallery,
   index,
   setIndex,
-  setSelected
+  setSelected,
+  setTitle,
 }) {
   // if (!selected.src) {
   //   return null;
@@ -18,9 +19,10 @@ export default function Lightbox({
 
   const handleClose = () => {
     setOpen(false);
+    setTitle("Title");
   };
 
-  const setNext = direction => {
+  const setNext = (direction) => {
     let newIndex;
     if (direction === "left") {
       if (index === gallery.length - 1) {

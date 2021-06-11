@@ -10,7 +10,9 @@ export default function GalleryPage({
   filters,
   gallerySelect,
   photos,
-  setPhotos
+  setPhotos,
+  setAllPhotos,
+  setTitle,
 }) {
   const [page, setPage] = useState(1);
 
@@ -19,10 +21,10 @@ export default function GalleryPage({
       const res = await fetch(`v1/galleries?${filters}`);
       res
         .json()
-        .then(res => {
+        .then((res) => {
           // create an array of photos with all top level files
           // think of this as a title page
-          const galleries = res.map(gallery => ({
+          const galleries = res.map((gallery) => ({
             name: gallery.name,
             src: gallery.files[0].src,
             width: gallery.files[0].width,
@@ -30,31 +32,34 @@ export default function GalleryPage({
             rawHeight: gallery.files[0].height,
             height: gallery.files[0].height,
             thumb: gallery.files[0].thumb,
+            tags: gallery.tags,
             type: gallery.type,
-            files: gallery.files.map(file => ({
+            files: gallery.files.map((file) => ({
               rawWidth: file.width, // width and height get changed by the gallery component
               rawHeight: file.height, // so back them up to raw values
-              ...file
-            }))
+              ...file,
+            })),
           }));
           setPhotos(galleries);
+          setAllPhotos(galleries);
           history.push("/", { photos: galleries });
         })
-        .catch(err => console.log("error calling api:", err));
+        .catch((err) => console.log("error calling api:", err));
     }
 
     fetchGalleries(filters);
-  }, [filters, setPhotos]);
+  }, [filters, setPhotos, setAllPhotos]);
 
   useEffect(() => {
     const unlisten = history.listen((location, action) => {
       if (action === "POP" && location.state) {
         setPhotos(location.state.photos);
         setPage(1);
+        setTitle("Title");
       }
     });
     return () => unlisten();
-  }, [setPhotos]);
+  }, [setPhotos, setTitle]);
 
   const handlePhotoClick = useCallback(
     (event, { photo, index }) => {
@@ -75,8 +80,6 @@ export default function GalleryPage({
     [setPage]
   );
 
-  console.log(page);
-
   return (
     <>
       <Gallery
@@ -87,7 +90,7 @@ export default function GalleryPage({
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end"
+          justifyContent: "flex-end",
         }}
       >
         <Pagination
