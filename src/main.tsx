@@ -7,11 +7,18 @@ import {
 import '@fontsource/inter';
 
 import Root from './routes/root'
+import Gallery from './routes/gallery'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    children: [
+      {
+        path: "/:page?",
+        element: <Gallery />
+      }
+    ]
   },
 ]);
 

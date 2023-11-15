@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useColorScheme } from '@mui/joy/styles';
 import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Drawer from '@mui/joy/Drawer'
 import Typography from '@mui/joy/Typography';
 import Input from '@mui/joy/Input';
 import IconButton from '@mui/joy/IconButton';
@@ -12,73 +14,105 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // custom
-import Layout from './Layout';
 import Navigation from './Navigation';
 
 export default function Header() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const toggleDrawer =
+    (inOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setDrawerOpen(inOpen);
+    };
+
   return (
-    <>
-      {drawerOpen && (
-        <Layout.SideDrawer onClose={() => setDrawerOpen(false)}>
-          <Navigation />
-        </Layout.SideDrawer>
-      )}
-      <Layout.Header>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 1.5,
-          }}
-        >
-          <IconButton
-            variant="outlined"
-            size="sm"
-            onClick={() => setDrawerOpen(true)}
-          // sx={{ display: { sm: 'none' } }}
-          >
-            <MenuIcon />
+    <Box
+      component="header"
+      className="Header"
+      sx={[
+        {
+          p: 2,
+          gap: 2,
+          bgcolor: 'background.surface',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gridColumn: '1 / -1',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1100,
+        },
+      ]}
+    >
+      <Drawer anchor={"right"} open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Navigation />
+      </Drawer>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 1.5,
+        }}
+      >
+        <Typography component="h1" fontWeight="xl">
+          Files
+        </Typography>
+      </Box>
+      <Input
+        size="sm"
+        variant="outlined"
+        placeholder="Search anything…"
+        startDecorator={<SearchRoundedIcon color="primary" />}
+        endDecorator={
+          <IconButton variant="outlined" color="neutral">
+            <Typography fontWeight="lg" fontSize="sm" textColor="text.icon">
+              ⌘ + k
+            </Typography>
           </IconButton>
-          <Typography component="h1" fontWeight="xl">
-            Files
-          </Typography>
-        </Box>
-        <Input
-          size="sm"
+        }
+        sx={{
+          flexBasis: '500px',
+          display: {
+            // xs: 'none',
+            sm: 'flex',
+          },
+          boxShadow: 'sm',
+        }}
+      />
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+        <ColorSchemeToggle />
+        <Button
           variant="outlined"
-          placeholder="Search anything…"
-          startDecorator={<SearchRoundedIcon color="primary" />}
-          endDecorator={
-            <IconButton variant="outlined" color="neutral">
-              <Typography fontWeight="lg" fontSize="sm" textColor="text.icon">
-                ⌘ + k
-              </Typography>
-            </IconButton>
-          }
-          sx={{
-            flexBasis: '500px',
-            display: {
-              xs: 'none',
-              sm: 'flex',
-            },
-            boxShadow: 'sm',
-          }}
-        />
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
-          <IconButton
-            size="sm"
-            variant="outlined"
-            color="neutral"
-            sx={{ display: { xs: 'inline-flex', sm: 'none' } }}
-          >
-            <SearchRoundedIcon />
-          </IconButton>
-          <ColorSchemeToggle />
-        </Box>
-      </Layout.Header>
-    </>
+          color="neutral"
+          onClick={() => setDrawerOpen(true)}
+          startDecorator={<MenuIcon />}
+          // show button with text when enough space
+          sx={{ display: { md: 'flex', xs: 'none' } }}
+        >
+          Change filters
+        </Button>
+        <IconButton
+          variant="outlined"
+          size="sm"
+          onClick={() => setDrawerOpen(true)}
+          // show icon button without text when limited on space
+          sx={{ display: { md: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Box>
+    </Box>
   )
 }
 
