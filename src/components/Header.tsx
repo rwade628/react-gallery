@@ -54,7 +54,7 @@ export default function Header() {
         },
       ]}
     >
-      <Drawer anchor={"right"} open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer anchor={"right"} open={drawerOpen} size={"sm"} onClose={toggleDrawer(false)}>
         <Navigation />
       </Drawer>
       <Box
@@ -84,13 +84,21 @@ export default function Header() {
         sx={{
           flexBasis: '500px',
           display: {
-            // xs: 'none',
+            xs: 'none',
             sm: 'flex',
           },
           boxShadow: 'sm',
         }}
       />
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+        <IconButton
+          size="sm"
+          variant="outlined"
+          color="neutral"
+          sx={{ display: { xs: 'inline-flex', sm: 'none' }, alignSelf: 'center' }}
+        >
+          <SearchRoundedIcon />
+        </IconButton>
         <ColorSchemeToggle />
         <Button
           variant="outlined"

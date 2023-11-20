@@ -21,7 +21,7 @@ export default function Gallery() {
       key={page}
       items={items}
       columnGutter={8}
-      columnCount={3}
+      columnWidth={350}
       overscanBy={2}
       render={GalleryCard}
     />
