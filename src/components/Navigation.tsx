@@ -1,21 +1,21 @@
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import List from '@mui/joy/List';
-import ListSubheader from '@mui/joy/ListSubheader';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
+import Box from "@mui/joy/Box";
+import IconButton from "@mui/joy/IconButton";
+import List from "@mui/joy/List";
+import ListSubheader from "@mui/joy/ListSubheader";
+import ListItem from "@mui/joy/ListItem";
+import ListItemButton from "@mui/joy/ListItemButton";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import ListItemContent from "@mui/joy/ListItemContent";
 
 // Icons import
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 export default function Navigation() {
   return (
-    <List size="sm" sx={{ '--ListItem-radius': '8px', '--List-gap': '4px' }}>
+    <List size="sm" sx={{ "--ListItem-radius": "8px", "--List-gap": "4px" }}>
       <ListItem nested>
         <ListSubheader>
           Browse
@@ -23,7 +23,7 @@ export default function Navigation() {
             size="sm"
             variant="plain"
             color="primary"
-            sx={{ '--IconButton-size': '24px', ml: 'auto' }}
+            sx={{ "--IconButton-size": "24px", ml: "auto" }}
           >
             <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
           </IconButton>
@@ -31,7 +31,7 @@ export default function Navigation() {
         <List
           aria-labelledby="nav-list-browse"
           sx={{
-            '& .JoyListItemButton-root': { p: '8px' },
+            "& .JoyListItemButton-root": { p: "8px" },
           }}
         >
           <ListItem>
@@ -44,7 +44,7 @@ export default function Navigation() {
           </ListItem>
           <ListItem>
             <ListItemButton>
-              <ListItemDecorator sx={{ color: 'neutral.500' }}>
+              <ListItemDecorator sx={{ color: "neutral.500" }}>
                 <ShareOutlinedIcon fontSize="small" />
               </ListItemDecorator>
               <ListItemContent>Shared files</ListItemContent>
@@ -52,7 +52,7 @@ export default function Navigation() {
           </ListItem>
           <ListItem>
             <ListItemButton>
-              <ListItemDecorator sx={{ color: 'neutral.500' }}>
+              <ListItemDecorator sx={{ color: "neutral.500" }}>
                 <DeleteRoundedIcon fontSize="small" />
               </ListItemDecorator>
               <ListItemContent>Trash</ListItemContent>
@@ -67,7 +67,7 @@ export default function Navigation() {
             size="sm"
             variant="plain"
             color="primary"
-            sx={{ '--IconButton-size': '24px', ml: 'auto' }}
+            sx={{ "--IconButton-size": "24px", ml: "auto" }}
           >
             <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
           </IconButton>
@@ -76,7 +76,7 @@ export default function Navigation() {
           aria-labelledby="nav-list-tags"
           size="sm"
           sx={{
-            '--ListItemDecorator-size': '32px',
+            "--ListItemDecorator-size": "32px",
           }}
         >
           <ListItem>
@@ -84,10 +84,10 @@ export default function Navigation() {
               <ListItemDecorator>
                 <Box
                   sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'primary.300',
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "99px",
+                    bgcolor: "primary.300",
                   }}
                 />
               </ListItemDecorator>
@@ -99,10 +99,10 @@ export default function Navigation() {
               <ListItemDecorator>
                 <Box
                   sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'danger.400',
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "99px",
+                    bgcolor: "danger.400",
                   }}
                 />
               </ListItemDecorator>
@@ -114,10 +114,10 @@ export default function Navigation() {
               <ListItemDecorator>
                 <Box
                   sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'warning.500',
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "99px",
+                    bgcolor: "warning.500",
                   }}
                 />
               </ListItemDecorator>
@@ -129,10 +129,10 @@ export default function Navigation() {
               <ListItemDecorator>
                 <Box
                   sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'success.400',
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "99px",
+                    bgcolor: "success.400",
                   }}
                 />
               </ListItemDecorator>
@@ -144,4 +144,3 @@ export default function Navigation() {
     </List>
   );
 }
-

@@ -1,36 +1,50 @@
-import * as React from 'react';
-import { useColorScheme } from '@mui/joy/styles';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Drawer from '@mui/joy/Drawer'
-import Typography from '@mui/joy/Typography';
-import Input from '@mui/joy/Input';
-import IconButton from '@mui/joy/IconButton';
+import * as React from "react";
+import { useColorScheme } from "@mui/joy/styles";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import Drawer from "@mui/joy/Drawer";
+import Link from "@mui/joy/Link";
+import Typography from "@mui/joy/Typography";
+import Input from "@mui/joy/Input";
+import IconButton from "@mui/joy/IconButton";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 // Icons import
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
-import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
-import MenuIcon from '@mui/icons-material/Menu';
+import CasinoIcon from "@mui/icons-material/Casino";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import MenuIcon from "@mui/icons-material/Menu";
 
 // custom
-import Navigation from './Navigation';
+import Navigation from "./Navigation";
+import { useGalleryStore } from "../state/gallery";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const selectRandom = useGalleryStore((state) => state.selectRandom);
+
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer =
     (inOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
       }
 
       setDrawerOpen(inOpen);
     };
+
+  const handleRandomClick = () => {
+    const gallery = selectRandom();
+    if (gallery.type == "photo") {
+      navigate(`/${gallery.id}`);
+    }
+  };
 
   return (
     <Box
@@ -40,35 +54,49 @@ export default function Header() {
         {
           p: 2,
           gap: 2,
-          bgcolor: 'background.surface',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gridColumn: '1 / -1',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          position: 'sticky',
+          bgcolor: "background.surface",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gridColumn: "1 / -1",
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          position: "sticky",
           top: 0,
           zIndex: 1100,
         },
       ]}
     >
-      <Drawer anchor={"right"} open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor={"right"}
+        open={drawerOpen}
+        size={"sm"}
+        onClose={toggleDrawer(false)}
+      >
         <Navigation />
       </Drawer>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 1.5,
-        }}
+      <Link
+        to="/"
+        component={RouterLink}
+        variant="plain"
+        color="neutral"
+        underline="none"
+        level="h3"
       >
-        <Typography component="h1" fontWeight="xl">
-          Files
-        </Typography>
-      </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 1.5,
+          }}
+        >
+          <Typography component="h1" fontWeight="xl">
+            Gallery
+          </Typography>
+        </Box>
+      </Link>
       <Input
         size="sm"
         variant="outlined"
@@ -82,15 +110,26 @@ export default function Header() {
           </IconButton>
         }
         sx={{
-          flexBasis: '500px',
+          flexBasis: "500px",
           display: {
-            // xs: 'none',
-            sm: 'flex',
+            xs: "none",
+            sm: "flex",
           },
-          boxShadow: 'sm',
+          boxShadow: "sm",
         }}
       />
-      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 1.5 }}>
+        <IconButton
+          size="sm"
+          variant="outlined"
+          color="neutral"
+          sx={{
+            display: { xs: "inline-flex", sm: "none" },
+            alignSelf: "center",
+          }}
+        >
+          <SearchRoundedIcon />
+        </IconButton>
         <ColorSchemeToggle />
         <Button
           variant="outlined"
@@ -98,7 +137,7 @@ export default function Header() {
           onClick={() => setDrawerOpen(true)}
           startDecorator={<MenuIcon />}
           // show button with text when enough space
-          sx={{ display: { md: 'flex', xs: 'none' } }}
+          sx={{ display: { md: "flex", xs: "none" } }}
         >
           Change filters
         </Button>
@@ -107,13 +146,16 @@ export default function Header() {
           size="sm"
           onClick={() => setDrawerOpen(true)}
           // show icon button without text when limited on space
-          sx={{ display: { md: 'none' } }}
+          sx={{ display: { md: "none" } }}
         >
           <MenuIcon />
         </IconButton>
+        <IconButton variant="outlined" size="sm" onClick={handleRandomClick}>
+          <CasinoIcon />
+        </IconButton>
       </Box>
     </Box>
-  )
+  );
 }
 
 function ColorSchemeToggle() {
@@ -132,14 +174,14 @@ function ColorSchemeToggle() {
       variant="soft"
       color="neutral"
       onClick={() => {
-        if (mode === 'light') {
-          setMode('dark');
+        if (mode === "light") {
+          setMode("dark");
         } else {
-          setMode('light');
+          setMode("light");
         }
       }}
     >
-      {mode === 'light' ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
+      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
     </IconButton>
   );
 }
