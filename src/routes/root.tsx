@@ -1,12 +1,11 @@
-import { CssVarsProvider } from '@mui/joy/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
-import { Box } from '@mui/joy';
+import { CssVarsProvider } from "@mui/joy/styles";
+import CssBaseline from "@mui/joy/CssBaseline";
+import { Box } from "@mui/joy";
 
-import { Outlet } from 'react-router-dom'
+import { Outlet } from "react-router-dom";
 
 // custom
-import Header from '../components/Header'
-
+import Header from "../components/Header";
 
 export default function Root() {
   return (
@@ -14,22 +13,17 @@ export default function Root() {
       <CssBaseline />
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gridTemplateRows: '64px 1fr',
-          minHeight: '100vh',
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gridTemplateRows: "64px 1fr",
+          minHeight: "100vh",
         }}
       >
         <Header />
-        <Box
-          component="main"
-          className="Main"
-          sx={{ p: 2 }}
-        >
+        <Box component="main" className="Main" sx={{ p: 2 }}>
           <Outlet />
         </Box>
       </Box>
-    </CssVarsProvider >
+    </CssVarsProvider>
   );
 }
-
