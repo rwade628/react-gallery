@@ -5,7 +5,7 @@ import { Box } from "@mui/joy";
 import { Outlet } from "react-router-dom";
 
 // custom
-import Header from "../components/Header";
+import Header from "../components/header";
 
 export default function Root() {
   return (

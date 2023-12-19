@@ -3,41 +3,34 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@fontsource/inter";
 
-import { useGalleryStore } from "./state/gallery";
-
+import ErrorPage from "./routes/error-page";
 import Root from "./routes/root";
 import Gallery from "./routes/gallery";
-import Lightbox from "./routes/lightbox";
 
-const loader = async () => {
-  const existingGalleries = useGalleryStore.getState().galleries;
-  if (existingGalleries.length === 0) {
-    const res = await fetch(`api/galleries`);
-    if (res.status === 404) {
-      throw new Response("Not Found", { status: 404 });
-    }
-    const galleries = await res.json();
-    useGalleryStore.setState({ galleries: galleries });
-    return galleries;
+const galleryLoader = async () => {
+  const res = await fetch(`/api/galleries`);
+  if (res.status === 404) {
+    throw new Response("Not Found", { status: 404 });
   }
-  return existingGalleries;
+  const galleries = await res.json();
+  return galleries;
 };
 
 const router = createBrowserRouter([
   {
     path: "/",
+    id: "root",
     element: <Root />,
+    errorElement: <ErrorPage />,
+    loader: galleryLoader,
     children: [
+      {
+        path: "/gallery",
+        element: <Gallery />,
+      },
       {
         path: "/:page?",
         element: <Gallery />,
-        loader: loader,
-        children: [
-          {
-            path: "modal/:index",
-            element: <Lightbox />,
-          },
-        ],
       },
     ],
   },

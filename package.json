@@ -12,17 +12,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@egjs/react-infinitegrid": "^4.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.15",
     "@mui/icons-material": "^5.14.18",
-    "@mui/joy": "^5.0.0-beta.15",
+    "@mui/joy": "^5.0.0-beta.18",
     "@mui/material": "^5.14.18",
-    "masonic": "^3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0",
-    "zustand": "^4.4.6"
+    "react-router-dom": "^6.21.0",
+    "react-zoom-pan-pinch": "^3.3.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
