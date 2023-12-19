@@ -7,7 +7,11 @@ import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 import Input from "@mui/joy/Input";
 import IconButton from "@mui/joy/IconButton";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useNavigate,
+  useRouteLoaderData,
+} from "react-router-dom";
 
 // Icons import
 import CasinoIcon from "@mui/icons-material/Casino";
@@ -17,12 +21,12 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 
 // custom
-import Navigation from "./Navigation";
-import { useGalleryStore } from "../state/gallery";
+import Navigation from "./drawer";
+import { Gallery as GalleryProps } from "../state/gallery";
 
 export default function Header() {
   const navigate = useNavigate();
-  const selectRandom = useGalleryStore((state) => state.selectRandom);
+  const galleries = useRouteLoaderData("root") as GalleryProps[];
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
@@ -40,9 +44,21 @@ export default function Header() {
     };
 
   const handleRandomClick = () => {
-    const gallery = selectRandom();
-    if (gallery.type == "photo") {
-      navigate(`/${gallery.id}`);
+    if (galleries && galleries.length > 0) {
+      const gallery = galleries[Math.floor(Math.random() * galleries.length)];
+      let linkTo = "";
+      switch (gallery.type) {
+        case "photo":
+          linkTo = `/${gallery.id}`;
+          break;
+        case "movie":
+          linkTo = `/?modal=${gallery.id}`;
+          break;
+        default:
+          // do nothing
+          return;
+      }
+      navigate(linkTo);
     }
   };
 
