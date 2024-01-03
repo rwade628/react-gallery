@@ -6,8 +6,9 @@ import ModalClose from "@mui/joy/ModalClose";
 
 import { NavigateNext, NavigateBefore } from "@mui/icons-material";
 
-import { Gallery as GalleryProps } from "../state/gallery";
+import { GalleryProps } from "./gallery/props";
 import { ImageView } from "./image";
+import Video from "./video";
 
 export default function LightBox({ gallery }: { gallery: GalleryProps }) {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export default function LightBox({ gallery }: { gallery: GalleryProps }) {
             </IconButton>
           </>
         ) : (
-          <video src={src} autoPlay controls style={{ maxWidth: "100vw" }} />
+          <Video src={src} />
         )}
       </Box>
     </Modal>

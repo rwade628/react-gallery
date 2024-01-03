@@ -22,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 // custom
 import Navigation from "./drawer";
-import { Gallery as GalleryProps } from "../state/gallery";
+import { GalleryProps } from "./gallery/props";
 
 export default function Header() {
   const navigate = useNavigate();
