@@ -5,6 +5,7 @@ import { JustifiedInfiniteGrid } from "@egjs/react-infinitegrid";
 import { useStatusStore } from "../../state/status";
 import GalleryCard from "./card";
 import { GalleryProps } from "./props";
+import { useSettingsStore } from "../../state/settings";
 
 export default function GalleryGrid({
   galleries,
@@ -13,6 +14,7 @@ export default function GalleryGrid({
   galleries: GalleryProps[];
   page: string;
 }) {
+  const columnCount = useSettingsStore((state) => state.columnCount);
   const statusByPage = useStatusStore((state) => state.statusByPage);
   const updateStatus = useStatusStore((state) => state.updateStatus);
   const igRef = React.useRef() as React.RefObject<JustifiedInfiniteGrid>;
@@ -40,7 +42,7 @@ export default function GalleryGrid({
   return (
     <JustifiedInfiniteGrid
       style={{ width: "100%" }}
-      columnRange={4}
+      columnRange={columnCount}
       // rowRange={1}
       gap={5}
       key={page}
@@ -50,7 +52,7 @@ export default function GalleryGrid({
         <GalleryCard
           calculateView={saveView}
           gallery={item}
-          data-grid-groupkey={Math.floor(index / 20)}
+          data-grid-groupkey={Math.floor(index / (10 * columnCount))}
           key={index}
           page={page}
           index={index}

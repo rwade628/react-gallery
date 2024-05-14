@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@egjs/react-infinitegrid": "^4.11.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@fontsource/inter": "^5.0.15",
-    "@mui/icons-material": "^5.14.18",
-    "@mui/joy": "^5.0.0-beta.18",
-    "@mui/material": "^5.14.18",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/inter": "^5.0.17",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/joy": "^5.0.0-beta.32",
+    "@mui/material": "^5.15.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",
@@ -28,14 +28,14 @@
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
     "@vitejs/plugin-react": "^4.0.3",
-    "eslint": "^8.45.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "json-server": "^0.17.4",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^5.2.8"
   }
 }

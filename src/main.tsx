@@ -8,7 +8,7 @@ import Root from "./routes/root";
 import Gallery from "./routes/gallery";
 
 const galleryLoader = async () => {
-  const res = await fetch(`/api/galleries`);
+  const res = await fetch(`/v2/galleries?orderBy=newest`);
   if (res.status === 404) {
     throw new Response("Not Found", { status: 404 });
   }

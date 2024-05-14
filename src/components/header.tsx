@@ -23,8 +23,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 // custom
 import Navigation from "./drawer";
 import { GalleryProps } from "./gallery/props";
+import { useSettingsStore } from "../state/settings";
 
 export default function Header() {
+  const updateSearch = useSettingsStore((store) => store.updateSearch);
   const navigate = useNavigate();
   const galleries = useRouteLoaderData("root") as GalleryProps[];
 
@@ -42,6 +44,10 @@ export default function Header() {
 
       setDrawerOpen(inOpen);
     };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSearch(e.target.value);
+  };
 
   const handleRandomClick = () => {
     if (galleries && galleries.length > 0) {
@@ -117,6 +123,7 @@ export default function Header() {
         size="sm"
         variant="outlined"
         placeholder="Search anything…"
+        onChange={handleSearch}
         startDecorator={<SearchRoundedIcon color="primary" />}
         endDecorator={
           <IconButton variant="outlined" color="neutral">

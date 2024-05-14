@@ -29,6 +29,11 @@ export default function Controls({
   const [volume, setVolume] = React.useState(100);
   const [paused, setPaused] = React.useState(false);
 
+  React.useEffect(() => {
+    videoRef.current!.play();
+    setPaused(!paused);
+  }, []);
+
   const control = controlOptions.get(isHorizontal ? "horizontal" : "vertical");
 
   const scrub = ({}: Event, val: number | number[]) => {
@@ -57,8 +62,9 @@ export default function Controls({
   };
 
   const skip = (skip: number) => {
-    videoRef.current!.currentTime += skip;
-    setProgress(progress + skip / 100);
+    const newProgress =
+      (videoRef.current!.currentTime + skip) / videoRef.current!.duration;
+    scrub({} as Event, newProgress * 100);
   };
 
   const updatePlayback = (speed: number) => {

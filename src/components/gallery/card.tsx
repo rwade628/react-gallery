@@ -3,6 +3,7 @@ import Box from "@mui/joy/Box";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 
+import InfoIcon from "@mui/icons-material/Info";
 import ImageIcon from "@mui/icons-material/Image";
 import MovieIcon from "@mui/icons-material/Movie";
 
@@ -37,9 +38,12 @@ export default function GalleryCard({
   return (
     <Link
       // to={linkTo}
-      onClick={() => {
-        calculateView(page);
-        navigate(linkTo);
+      onClick={(e) => {
+        console.log("start", e.defaultPrevented);
+        if (!e.defaultPrevented) {
+          calculateView(page);
+          navigate(linkTo);
+        }
       }}
     >
       <img
@@ -65,7 +69,26 @@ export default function GalleryCard({
                 <MovieIcon fontSize="inherit" />
               )
             }
-            justifyContent="center"
+            endDecorator={
+              // <Link
+              //   onClick={(e) => {
+              //     console.log("test", e.defaultPrevented);
+              //     e.preventDefault();
+              //     navigate(`?info=${id}`);
+              //   }}
+              // >
+              <InfoIcon
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`?info=${id}`);
+                }}
+              />
+              // </Link>
+            }
+            sx={{ width: "80%" }}
+            justifyContent="space-between"
+            alignItems="center"
             textColor="#f1f1f1"
             variant="plain"
             level="body-lg"

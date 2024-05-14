@@ -6,11 +6,20 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
+      "/v1": {
+        target: "http://gallery.home.arpa/",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/v2": {
+        target: "http://gallery.home.arpa/",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/public": {
+        target: "http://gallery.home.arpa/",
+        changeOrigin: true,
+        secure: false,
       },
     },
   },

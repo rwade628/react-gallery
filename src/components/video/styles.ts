@@ -76,6 +76,8 @@ controlOptions.set("vertical", {
     gap: 1.5,
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: "55px",
+    paddingRight: "12px",
   },
   altGroup: {
     flexBasis: "400px",
@@ -95,6 +97,6 @@ controlOptions.set("vertical", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 1.5
+    gap: 1.5,
   },
 });
