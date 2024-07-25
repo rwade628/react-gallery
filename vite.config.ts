@@ -7,17 +7,17 @@ export default defineConfig({
   server: {
     proxy: {
       "/v1": {
-        target: "http://gallery.home.arpa/",
+        target: "http://localhost:8081",
         changeOrigin: true,
         secure: false,
       },
       "/v2": {
-        target: "http://gallery.home.arpa/",
+        target: "http://localhost:8081",
         changeOrigin: true,
         secure: false,
       },
       "/public": {
-        target: "http://gallery.home.arpa/",
+        target: "http://localhost:8081",
         changeOrigin: true,
         secure: false,
       },
