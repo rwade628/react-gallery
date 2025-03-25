@@ -1,45 +1,40 @@
 {
-  "name": "react-learning",
-  "version": "0.1.0",
+  "name": "my-vue-app",
   "private": true,
-  "dependencies": {
-    "@material-ui/core": "^4.11.4",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.58",
-    "add": "^2.0.6",
-    "history": "^4.10.1",
-    "interactjs": "^1.10.11",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-photo-gallery": "^8.0.0",
-    "react-scripts": "^4.0.3"
-  },
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "react-scripts eject"
+    "server": "json-server --watch src/utils/db.json",
+    "dev": "vite --host",
+    "dev:local": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "@egjs/react-infinitegrid": "^4.12.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/inter": "^5.0.19",
+    "@mui/icons-material": "^5.16.5",
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/material": "^5.16.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.1",
+    "react-zoom-pan-pinch": "^3.6.1",
+    "zustand": "^4.5.4"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "proxy": "http://localhost:8080",
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^10.4.9",
-    "@testing-library/user-event": "^7.1.2",
-    "jest-environment-jsdom-sixteen": "^1.0.3"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
   }
 }
