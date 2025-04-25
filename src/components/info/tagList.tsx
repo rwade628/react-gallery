@@ -1,9 +1,6 @@
 import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
-import Autocomplete, {
-  createFilterOptions,
-  FilterOptionsState,
-} from "@mui/joy/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@mui/joy/Autocomplete";
 import Chip from "@mui/joy/Chip";
 import {
   AutocompleteOption,
@@ -52,10 +49,7 @@ export default function TagList({
       </Chip>
     ));
 
-  const handleFilter = (
-    options: string[],
-    params: FilterOptionsState<string>,
-  ) => {
+  const handleFilter = (options: string[], params: any) => {
     const filtered = filter(options, params);
 
     const { inputValue } = params;

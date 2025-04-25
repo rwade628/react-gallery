@@ -1,4 +1,24 @@
 {
+  "tags": [
+    {
+      "id": 0,
+      "name": "Sasha",
+      "src": "https://cdn.pixabay.com/photo/2017/03/12/01/29/cats-2136245__480.jpg",
+      "thumb": "https://cdn.pixabay.com/photo/2017/03/12/01/29/cats-2136245__480.jpg",
+      "type": "photo",
+      "width": 1920,
+      "height": 1080,
+      "tags": ["cute", "chonky", "fluffy", "soft"],
+      "photos": [
+        {
+          "src": "https://cdn.pixabay.com/photo/2017/05/13/21/14/british-shorthair-2310671__480.jpg",
+          "width": 1920,
+          "height": 1920,
+          "thumb": "https://cdn.pixabay.com/photo/2017/05/13/21/14/british-shorthair-2310671__480.jpg"
+        }
+      ]
+    }
+  ],
   "galleries": [
     {
       "id": 0,

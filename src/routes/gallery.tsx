@@ -33,12 +33,13 @@ export default function Gallery() {
       if (gallery.name?.toLowerCase().includes(search.toLowerCase())) {
         return true;
       }
-      gallery.tags?.forEach((tag) => {
+      // console.log(gallery.name, gallery.tags);
+      return gallery.tags?.some((tag) => {
         if (tag.toLowerCase().includes(search.toLowerCase())) {
+          console.log("found", tag);
           return true;
         }
       });
-      return false;
     });
   }
 

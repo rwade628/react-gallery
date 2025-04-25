@@ -3,6 +3,8 @@ import Modal from "@mui/joy/Modal";
 
 import { GalleryProps } from "../gallery/props";
 import InfoCard from "./card";
+import ModalClose from "@mui/joy/ModalClose";
+import ModalDialog from "@mui/joy/ModalDialog";
 
 export default function Info({ gallery }: { gallery: GalleryProps }) {
   const navigate = useNavigate();
@@ -19,7 +21,11 @@ export default function Info({ gallery }: { gallery: GalleryProps }) {
         alignItems: "center",
       }}
     >
-      <InfoCard gallery={gallery} />
+      <ModalDialog>
+        <ModalClose />
+
+        <InfoCard gallery={gallery} />
+      </ModalDialog>
     </Modal>
   );
 }

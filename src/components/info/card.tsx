@@ -2,7 +2,6 @@ import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
-import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
 
 import { GalleryProps } from "../gallery/props";
@@ -20,6 +19,7 @@ const InfoCard = React.forwardRef(
 
     return (
       <Card
+        variant="plain"
         orientation="horizontal"
         sx={{
           width: { s: "60%", m: "40%" },
@@ -36,7 +36,6 @@ const InfoCard = React.forwardRef(
           overflow: "auto",
         }}
       >
-        <ModalClose variant="plain" sx={{ m: 1 }} />
         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
           <img src={gallery.thumb} alt="" />
         </AspectRatio>
